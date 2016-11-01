@@ -1,0 +1,46 @@
+{
+  "name": "skybiometry-login",
+  "version": "0.0.1",
+  "description": "Log users in with SkyBiometry's face recognition",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run compile && mocha --compilers js:babel-core/register",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/* --compilers js:babel-core/register",
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelcorreiapoli/skybiometry-login.git"
+  },
+  "keywords": [
+    "skybiometry",
+    "face",
+    "recognition",
+    "login",
+    "authentication"
+  ],
+  "author": "Rafael Ribeiro Correia <rafael.correia.poli@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rafaelcorreiapoli/skybiometry-login/issues"
+  },
+  "homepage": "https://github.com/rafaelcorreiapoli/skybiometry-login#readme",
+  "dependencies": {
+    "promise-waterfall": "^0.1.0",
+    "skybiometry-client": "0.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "check-error": "^1.0.2",
+    "coveralls": "^2.11.14",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "nock": "^9.0.2"
+  }
+}
