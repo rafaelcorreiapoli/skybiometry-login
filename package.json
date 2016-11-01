@@ -1,6 +1,6 @@
 {
   "name": "skybiometry-login",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Log users in with SkyBiometry's face recognition",
   "main": "lib/index.js",
   "scripts": {
