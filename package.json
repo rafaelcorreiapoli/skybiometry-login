@@ -2,7 +2,7 @@
   "name": "skybiometry-login",
   "version": "1.0.1",
   "description": "Log users in with SkyBiometry's face recognition",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "npm run compile && mocha --compilers js:babel-core/register",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/* --compilers js:babel-core/register",
