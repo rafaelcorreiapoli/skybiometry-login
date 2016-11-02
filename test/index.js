@@ -18,18 +18,18 @@ const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
 
 
 describe('Sky Biometry Client', function() {
-    it('should build correct string for user@namespace', function() {
-      const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
-      expect(skyBiometryLogin._buildNamespaceForUser('test')).to.equal('test@my-namespace')
-    })
-    it('should retrieve correct uid for given namespaced string', function() {
-      const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
-      expect(skyBiometryLogin._getUidFromNamespacedString('test@my-namespace')).to.equal('test')
-    })
-    it('should throw error for invalid namespaced string', function() {
-      const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
-      expect(() => skyBiometryLogin._getUidFromNamespacedString('testmy-namespace')).to.throw(Error)
-    })
+  it('should build correct string for user@namespace', function() {
+    const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
+    expect(skyBiometryLogin._buildNamespaceForUser('test')).to.equal('test@my-namespace')
+  })
+  it('should retrieve correct uid for given namespaced string', function() {
+    const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
+    expect(skyBiometryLogin._getUidFromNamespacedString('test@my-namespace')).to.equal('test')
+  })
+  it('should throw error for invalid namespaced string', function() {
+    const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
+    expect(() => skyBiometryLogin._getUidFromNamespacedString('testmy-namespace')).to.throw(Error)
+  })
 });
 
 describe('Register face for user', function() {
@@ -39,18 +39,18 @@ describe('Register face for user', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .post(/faces\/detect/)
-      .reply(200, {
-        photos: []
-      });
+    .post(/faces\/detect/)
+    .reply(200, {
+      photos: []
+    });
     nock('http://api.skybiometry.com/fc')
-      .get(/tags\/save/)
-      .reply(200);
+    .get(/tags\/save/)
+    .reply(200);
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/train/)
-      .reply(200, {
-        status: 'success'
-      });
+    .get(/faces\/train/)
+    .reply(200, {
+      status: 'success'
+    });
 
     const p = skyBiometryLogin.registerFaceForUser(uid, url, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_NO_PICTURE')
@@ -64,20 +64,20 @@ describe('Register face for user', function() {
     nock.cleanAll();
 
     nock('http://api.skybiometry.com/fc')
-      .post(/faces\/detect/)
-      .reply(200, {
-        photos: [{
-          tags: []
-        }]
-      });
+    .post(/faces\/detect/)
+    .reply(200, {
+      photos: [{
+        tags: []
+      }]
+    });
     nock('http://api.skybiometry.com/fc')
-      .get(/tags\/save/)
-      .reply(200);
+    .get(/tags\/save/)
+    .reply(200);
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/train/)
-      .reply(200, {
-        status: 'success'
-      });
+    .get(/faces\/train/)
+    .reply(200, {
+      status: 'success'
+    });
 
     const p = skyBiometryLogin.registerFaceForUser(uid, url, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_NO_FACES')
@@ -93,31 +93,31 @@ describe('Register face for user', function() {
     nock.cleanAll()
 
     nock('http://api.skybiometry.com/fc')
-      .post(/faces\/detect/)
-      .reply(200, {
-        photos: [{
-          tags: [{
-            tid: 'myTagId'
-          }]
+    .post(/faces\/detect/)
+    .reply(200, {
+      photos: [{
+        tags: [{
+          tid: 'myTagId'
         }]
-      });
+      }]
+    });
     nock('http://api.skybiometry.com/fc')
-      .get(/tags\/save/)
-      .reply(200, {
-        "status" : "success",
-        "saved_tags" : [
-          {
-            "detected_tid" : "TEMP_F@0c95576847e9cd7123f1e304b1dcbe53_59ec9bb2ad15f_56.53_40.83_0_1",
-            "tid" : "b1dcbe53_59ec9bb2ad15f"
-          }
-        ],
-        "message" : "Tag saved with uid: mark@docs, label: "
-      });
+    .get(/tags\/save/)
+    .reply(200, {
+      'status' : 'success',
+      'saved_tags' : [
+        {
+          'detected_tid' : 'TEMP_F@0c95576847e9cd7123f1e304b1dcbe53_59ec9bb2ad15f_56.53_40.83_0_1',
+          'tid' : 'b1dcbe53_59ec9bb2ad15f'
+        }
+      ],
+      'message' : 'Tag saved with uid: mark@docs, label: '
+    });
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/train/)
-      .reply(200, {
-        status: 'success'
-      });
+    .get(/faces\/train/)
+    .reply(200, {
+      status: 'success'
+    });
     const p = skyBiometryLogin.registerFaceForUser(uid, url, customOptions)
     return p.should.eventually.deep.property('status', 'success')
   })
@@ -140,10 +140,10 @@ describe('authenticateUserByPhoto', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/recognize/)
-      .reply(200, {
-        photos: []
-      });
+    .get(/faces\/recognize/)
+    .reply(200, {
+      photos: []
+    });
 
     const p = skyBiometryLogin.authenticateUserByPhoto(usersToCompare, urls, threshold, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_NO_PICTURE')
@@ -156,12 +156,12 @@ describe('authenticateUserByPhoto', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/recognize/)
-      .reply(200, {
-        photos: [{
-          tags: []
-        }]
-      });
+    .get(/faces\/recognize/)
+    .reply(200, {
+      photos: [{
+        tags: []
+      }]
+    });
 
     const p = skyBiometryLogin.authenticateUserByPhoto(usersToCompare, urls, threshold, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_NO_FACES')
@@ -176,14 +176,14 @@ describe('authenticateUserByPhoto', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/recognize/)
-      .reply(200, {
-        photos: [{
-          tags: [{
-            uids: []
-          }]
+    .get(/faces\/recognize/)
+    .reply(200, {
+      photos: [{
+        tags: [{
+          uids: []
         }]
-      });
+      }]
+    });
 
     const p = skyBiometryLogin.authenticateUserByPhoto(usersToCompare, urls, threshold, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_NO_CANDIDATES')
@@ -196,17 +196,17 @@ describe('authenticateUserByPhoto', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/recognize/)
-      .reply(200, {
-        photos: [{
-          tags: [{
-            uids: [{
-              uid: 'rafa@my-namespace',
-              confidence: 69,
-            }]
+    .get(/faces\/recognize/)
+    .reply(200, {
+      photos: [{
+        tags: [{
+          uids: [{
+            uid: 'rafa@my-namespace',
+            confidence: 69,
           }]
         }]
-      });
+      }]
+    });
 
     const p = skyBiometryLogin.authenticateUserByPhoto(usersToCompare, urls, threshold, customOptions)
     return expect(p).to.be.rejectedWith('ERROR_THRESHOLD')
@@ -219,22 +219,44 @@ describe('authenticateUserByPhoto', function() {
     const customOptions = {}
 
     nock('http://api.skybiometry.com/fc')
-      .get(/faces\/recognize/)
-      .reply(200, {
-        photos: [{
-          tags: [{
-            uids: [{
-              uid: 'rafa@my-namespace',
-              confidence: 71,
-            }]
+    .get(/faces\/recognize/)
+    .reply(200, {
+      photos: [{
+        tags: [{
+          uids: [{
+            uid: 'rafa@my-namespace',
+            confidence: 71,
           }]
         }]
-      });
+      }]
+    });
 
     const p = skyBiometryLogin.authenticateUserByPhoto(usersToCompare, urls, threshold, customOptions)
     return p.should.eventually.deep.equal({
       uid: 'rafa',
       confidence: 71,
+    })
+  })
+
+  describe('removeFaceForUser', function() {
+    it('should remove face for user', function() {
+      const tid = 'b1dcbe53_59ec9bb2ad15f'
+
+      nock('http://api.skybiometry.com/fc')
+      .get(/tags\/remove/)
+      .reply(200, {
+        'status' : 'success',
+        'removed_tags' : [
+          {
+            'removed_tid' : 'b1dcbe53_59ec9bb2ad15f',
+            'tid' : 'b1dcbe53_59ec9bb2ad15f'
+          }
+        ],
+        'message' : 'Tag removed'
+      });
+
+      const p = skyBiometryLogin.removeFaceForUser(tid)
+      return p.should.eventually.deep.property('status', 'success')
     })
   })
 })
