@@ -203,7 +203,7 @@ export default class LoginBiometry {
     })
     .then((res) => {
       return this.client.faces.train({
-        uids:uid,
+        uids: this._buildNamespaceForUser(uid),
       })
     })
   }
