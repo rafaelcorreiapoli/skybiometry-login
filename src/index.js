@@ -197,9 +197,14 @@ export default class LoginBiometry {
     return waterfall([recognize, authenticate]) //  , saveTagForBestCandidate, trainFace])
   }
 
-  removeFaceForUser(tid) {
+  removeFaceForUser(uid, tid) {
     return this.client.tags.remove({
       tids: tid
+    })
+    .then((res) => {
+      return this.client.faces.train({
+        uids:uid,
+      })
     })
   }
 }

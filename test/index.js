@@ -242,6 +242,8 @@ describe('authenticateUserByPhoto', function() {
     it('should remove face for user', function() {
       const tid = 'b1dcbe53_59ec9bb2ad15f'
 
+      nock.cleanAll()
+
       nock('http://api.skybiometry.com/fc')
       .get(/tags\/remove/)
       .reply(200, {
@@ -253,6 +255,12 @@ describe('authenticateUserByPhoto', function() {
           }
         ],
         'message' : 'Tag removed'
+      });
+
+      nock('http://api.skybiometry.com/fc')
+      .get(/faces\/train/)
+      .reply(200, {
+        status: 'success'
       });
 
       const p = skyBiometryLogin.removeFaceForUser(tid)
