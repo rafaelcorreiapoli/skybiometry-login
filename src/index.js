@@ -73,6 +73,7 @@ export default class LoginBiometry {
 
     //  return waterfall([detect, saveTag, trainFace])
 
+    let tid = ''
     return this.client.faces.detect({
       urls: url,
       detector: 'aggressive',
@@ -101,9 +102,14 @@ export default class LoginBiometry {
       })
     })
     .then(res => {
+      const savedTags = res.saved_tags
+      tid = savedTags[0].tid
       return this.client.faces.train({
         uids: this._buildNamespaceForUser(uid),
-      })
+      }).then(res => ({
+        status: res.status,
+        tid,
+      }))
     })
   }
 

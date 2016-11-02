@@ -12,37 +12,6 @@ chai.should()
 const expect = chai.expect
 const assert = chai.assert
 
-const skyBiometryClient2 = {
-  faces: {
-    detect() {
-      return new Promise((resolve, reject) => {
-        resolve({
-          photos: [
-            // {
-            //   tags: [
-            //     {
-            //       tid: 'tid',
-            //     }
-            //   ]
-            // }
-          ]
-        })
-      })
-    },
-    train() {
-      return new Promise((resolve, reject) => {
-        resolve()
-      })
-    }
-  },
-  tags: {
-    save() {
-      return new Promise((resolve, reject) => {
-        resolve()
-      })
-    }
-  }
-}
 
 const skyBiometryClient = new SkyBiometryClient('key', 'secret')
 const skyBiometryLogin = new SkyBiometryLogin(skyBiometryClient, 'my-namespace')
@@ -92,6 +61,8 @@ describe('Register face for user', function() {
     const url = 'http://placehold.it/400x400'
     const customOptions = {}
 
+    nock.cleanAll();
+
     nock('http://api.skybiometry.com/fc')
       .post(/faces\/detect/)
       .reply(200, {
@@ -119,6 +90,8 @@ describe('Register face for user', function() {
     const url = 'http://placehold.it/400x400'
     const customOptions = {}
 
+    nock.cleanAll()
+
     nock('http://api.skybiometry.com/fc')
       .post(/faces\/detect/)
       .reply(200, {
@@ -130,7 +103,16 @@ describe('Register face for user', function() {
       });
     nock('http://api.skybiometry.com/fc')
       .get(/tags\/save/)
-      .reply(200);
+      .reply(200, {
+        "status" : "success",
+        "saved_tags" : [
+          {
+            "detected_tid" : "TEMP_F@0c95576847e9cd7123f1e304b1dcbe53_59ec9bb2ad15f_56.53_40.83_0_1",
+            "tid" : "b1dcbe53_59ec9bb2ad15f"
+          }
+        ],
+        "message" : "Tag saved with uid: mark@docs, label: "
+      });
     nock('http://api.skybiometry.com/fc')
       .get(/faces\/train/)
       .reply(200, {
