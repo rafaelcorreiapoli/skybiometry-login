@@ -81,6 +81,9 @@ export default class LoginBiometry {
       ...customOptions,
     })
     .then(res => {
+      this.log('Resposta do faces/detect')
+      this.log(res)
+
       if (!res.photos.length) {
         console.log('throwing!')
         throw new Error(this.ERROR_NO_PICTURE);
@@ -96,12 +99,15 @@ export default class LoginBiometry {
 
       const tempTagId = tag.tid;
 
+      this.log('salvando tag')
       return this.client.tags.save({
         uid: this._buildNamespaceForUser(uid),
         tids: tempTagId,
       })
     })
     .then(res => {
+      this.log('Resposta do tags/save')
+      this.log(res)
       const savedTags = res.saved_tags
       tid = savedTags[0].tid
       return this.client.faces.train({
